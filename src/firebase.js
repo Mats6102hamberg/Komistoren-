@@ -6,9 +6,9 @@ import { getFirestore } from 'firebase/firestore';
 // Firebase-konfiguration från miljövariabler
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY_NEW || import.meta.env.VITE_FIREBASE_API_KEY || 'AIzaSyAVzBrUtELAy6MjMhH7ap_ommh6kk4BBOo',
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || 'kompistoren.firebaseapp.com',
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || 'kompistorn.firebaseapp.com',
   projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || 'kompistoren',
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || 'kompistoren.firebasestorage.app',
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || 'kompistorn.firebasestorage.app',
   messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || '144829688897',
   appId: import.meta.env.VITE_FIREBASE_APP_ID || '1:144829688897:web:d433bf2d5ab3c193f6eac0'
 };
