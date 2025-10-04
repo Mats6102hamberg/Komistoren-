@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skapa Kompistören Ikoner</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 { color: #333; }
+        canvas {
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            margin: 20px 0;
+            cursor: pointer;
+        }
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        button:hover {
+            opacity: 0.9;
+        }
+        .info {
+            background: #f0f9ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #3b82f6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📷 Skapa Kompistören Ikoner</h1>
+        
+        <div class="info">
+            <strong>Instruktioner:</strong>
+            <ol>
+                <li>Klicka på knapparna nedan för att generera ikoner</li>
+                <li>Högerklicka på varje ikon och välj "Spara bild som..."</li>
+                <li>Spara som <code>icon-192.png</code> och <code>icon-512.png</code></li>
+                <li>Placera filerna i <code>public/</code> mappen</li>
+            </ol>
+        </div>
+
+        <h2>192x192 Ikon</h2>
+        <canvas id="icon192" width="192" height="192"></canvas>
+        <br>
+        <button onclick="generateIcon(192)">Generera 192x192</button>
+        <button onclick="downloadCanvas('icon192', 'icon-192.png')">Ladda ner</button>
+
+        <h2>512x512 Ikon</h2>
+        <canvas id="icon512" width="512" height="512"></canvas>
+        <br>
+        <button onclick="generateIcon(512)">Generera 512x512</button>
+        <button onclick="downloadCanvas('icon512', 'icon-512.png')">Ladda ner</button>
+    </div>
+
+    <script>
+        function generateIcon(size) {
+            const canvas = document.getElementById(`icon${size}`);
+            const ctx = canvas.getContext('2d');
+            
+            // Gradient bakgrund
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#3b82f6');
+            gradient.addColorStop(1, '#8b5cf6');
+            
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, size, size);
+            
+            // Kamera-ikon (förenklad)
+            ctx.fillStyle = 'white';
+            
+            // Kamera kropp
+            const centerX = size / 2;
+            const centerY = size / 2;
+            const cameraWidth = size * 0.6;
+            const cameraHeight = size * 0.45;
+            
+            ctx.fillRect(
+                centerX - cameraWidth/2, 
+                centerY - cameraHeight/2 + size * 0.05,
+                cameraWidth, 
+                cameraHeight
+            );
+            
+            // Lins (cirkel)
+            ctx.beginPath();
+            ctx.arc(centerX, centerY + size * 0.05, size * 0.15, 0, Math.PI * 2);
+            ctx.fillStyle = '#3b82f6';
+            ctx.fill();
+            
+            // Lins inre
+            ctx.beginPath();
+            ctx.arc(centerX, centerY + size * 0.05, size * 0.1, 0, Math.PI * 2);
+            ctx.fillStyle = '#1e40af';
+            ctx.fill();
+            
+            // Blixt (förenklad)
+            ctx.fillStyle = '#fbbf24';
+            ctx.beginPath();
+            ctx.moveTo(centerX + size * 0.15, centerY - size * 0.15);
+            ctx.lineTo(centerX + size * 0.25, centerY - size * 0.15);
+            ctx.lineTo(centerX + size * 0.18, centerY - size * 0.05);
+            ctx.lineTo(centerX + size * 0.22, centerY - size * 0.05);
+            ctx.lineTo(centerX + size * 0.15, centerY + size * 0.05);
+            ctx.lineTo(centerX + size * 0.18, centerY - size * 0.08);
+            ctx.closePath();
+            ctx.fill();
+            
+            // Rundade hörn (overlay)
+            ctx.globalCompositeOperation = 'destination-in';
+            ctx.beginPath();
+            ctx.roundRect(0, 0, size, size, size * 0.15);
+            ctx.fill();
+            ctx.globalCompositeOperation = 'source-over';
+        }
+        
+        function downloadCanvas(canvasId, filename) {
+            const canvas = document.getElementById(canvasId);
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+        
+        // Generera ikoner automatiskt vid laddning
+        window.onload = () => {
+            generateIcon(192);
+            generateIcon(512);
+        };
+    </script>
+</body>
+</html>
